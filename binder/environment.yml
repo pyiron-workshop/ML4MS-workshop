@@ -4,10 +4,10 @@ dependencies:
   - cmake
   - python =3.11
   #- jupyterlab
-  #- jupyter-book
-  #- ipykernel
+  - jupyter-book
+  - ipykernel
   #- ipympl
-  #- ipywidgets
+  - ipywidgets
   - pyiron =0.5.2
   - pyiron_base =0.7.9
   #- pyiron_atomistics =0.4.17
