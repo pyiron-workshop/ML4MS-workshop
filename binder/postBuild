@@ -1,16 +1,16 @@
-#git clone --depth 1 --single-branch https://github.com/srmnitc/pyiron_potentialfit.git
-#cd pyiron_potentialfit
-#pip install --no-deps .
-#cd ..
+git clone --depth 1 --single-branch https://github.com/srmnitc/pyiron_potentialfit.git
+cd pyiron_potentialfit
+pip install --no-deps .
+cd ..
 
-#git clone --depth 1 --single-branch https://github.com/ICAMS/python-ace.git
-#cd python-ace
-#pip install --no-deps .
-#cd ..
+git clone --depth 1 --single-branch https://github.com/ICAMS/python-ace.git
+cd python-ace
+pip install --no-deps .
+cd ..
 
-#git clone --depth 1 --single-branch https://github.com/ICAMS/TensorPotential
-#cd TensorPotential
-#python setup.py install
-#cd ..
+git clone --depth 1 --single-branch https://github.com/ICAMS/TensorPotential
+cd TensorPotential
+python setup.py install
+cd ..
 
-#cp -ra ${HOME} /srv/conda/envs/notebook/workshop-repo-cache
+cp -ra ${HOME} /srv/conda/envs/notebook/workshop-repo-cache
