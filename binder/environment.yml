@@ -3,7 +3,7 @@ channels:
 dependencies:
   - cmake
   - python =3.11
-  - jupyterlab
+  - jupyterlab =4.1.6
   - jupyter-book
   - ipykernel
   - ipympl
@@ -23,12 +23,12 @@ dependencies:
   - lammps =2023.03.28=*openmpi*
   - openmpi
   - pylammpsmpi =0.2.13
-  #- pyxtal =0.6.0
+  ##- pyxtal =0.6.0
   - pyiron_gpl =0.0.4
   - pyiron_contrib =0.1.15
   - python-ace =0.2.8 
-  #- sphinxdft >=2.7.0
-  #- sphinxdft-data
+  ##- sphinxdft >=2.7.0
+  ##- sphinxdft-data
   - nglview
   - sqsgenerator
   - pymatgen
@@ -36,7 +36,6 @@ dependencies:
   - randspg
   - mp-api =0.37.5
   - typing-extensions =4.8.0
-  - jupyterlab-h5web
   - pyarrow
   - pip:
     - pyxtal
