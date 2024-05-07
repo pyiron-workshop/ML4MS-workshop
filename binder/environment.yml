@@ -19,13 +19,13 @@ dependencies:
   - iprpy-data
   - numpy >=1.26.0
   - pyscal3
-  #- mpi4py =3.1.4
-  #- lammps =2023.03.28=*openmpi*
-  #- openmpi
-  #- pylammpsmpi =0.2.13
+  - mpi4py =3.1.4
+  - lammps =2023.03.28=*openmpi*
+  - openmpi
+  - pylammpsmpi =0.2.13
   #- pyxtal =0.6.0
-  #- pyiron_gpl =0.0.4
-  #- pyiron_contrib =0.1.15
+  - pyiron_gpl =0.0.4
+  - pyiron_contrib =0.1.15
   #- python-ace =0.2.8 
   #- sphinxdft >=2.7.0
   #- sphinxdft-data
