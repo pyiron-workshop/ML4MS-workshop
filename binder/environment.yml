@@ -36,7 +36,7 @@ dependencies:
   - randspg
   - mp-api =0.37.5
   - typing-extensions =4.8.0
-  - jupyterlab-h5web
+  #- jupyterlab-h5web
   - pyarrow
   - pip:
     - pyxtal
