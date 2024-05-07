@@ -40,4 +40,4 @@ dependencies:
   - pyarrow
   - pip:
     - pyxtal
-    - tensorflow
+    #- tensorflow
