@@ -37,6 +37,7 @@ dependencies:
   - mp-api =0.37.5
   - typing-extensions =4.8.0
   - pyarrow
+  - spglib =2.2.0
   - pip:
     - pyxtal
     - tensorflow
