@@ -1,0 +1,27 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: >-
+  Machine Learning Modalities for Materials Science
+  workshop: Maximizing High-Throughput Discovery and Machine
+  Learning Efficiency Through Computational Workflows
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Sarath
+    family-names: Menon
+    email: s.menon@mpie.de
+    affiliation: Max Planck Institute for Sustainable Materials
+    orcid: 'https://orcid.org/0000-0002-6776-1213'
+  - given-names: Jörg
+    family-names: Neugebauer
+    email: j.neugebauer@mpie.de
+    affiliation: Max Planck Institute for Sustainable Materials
+    orcid: 'https://orcid.org/0000-0002-7903-2472'
+repository-code: 'https://github.com/pyiron-workshop/ML4MS-workshop'
+url: 'https://ml4ms.ijs.si/speakers/joerg-neugebauer/'
+abstract: "The advent of high-throughput computation and discovery combined with machine learning is revolutionizing the field of computational materials science. It enables the simulation of large systems and complex material properties with ab initio accuracy. However, the development of these data-driven activities is often a computationally complex and intensive task, requiring the combination and orchestration of multiple and often incompatible simulation codes. Automated, reliable, and robust computational workflows are required to design and execute the underlying complex simulation protocols. Using the pyiron framework (pyiron.org), the tutorial provides a hands-on introduction to all aspects of workflow design, testing, and execution, with a strong focus on materials science and atomistic simulations. \uFEFF"
+license: GPL-3.0-or-later
