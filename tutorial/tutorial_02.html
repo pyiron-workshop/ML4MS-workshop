@@ -1,0 +1,1246 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Parametrising a Machine Learning Interatomic Potential &#8212; ML4MS workshop</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial/tutorial_02';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Validation of interatomic potentials" href="tutorial_03.html" />
+    <link rel="prev" title="Introduction to atomistic simulations with pyiron" href="tutorial_01.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ML4MS workshop</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    ML4MS workshop
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tutorial_01.html"><font style="font-family:roboto;color:#455e6c"> Introduction to atomistic simulations with pyiron </font></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><font style="font-family:roboto;color:#455e6c"> Parametrising a Machine Learning Interatomic Potential </font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_03.html"><font style="font-family:roboto;color:#455e6c"> Validation of interatomic potentials </font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_04.html"><font style="font-family:roboto;color:#455e6c"> Achieving reproducible and reusable workflows </font></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/pyiron-workshop/ML4MS-workshop/master?urlpath=lab/tree/tutorial/tutorial_02.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/tutorial/tutorial_02.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1><font style="font-family:roboto;color:#455e6c"> Parametrising a Machine Learning Interatomic Potential </font></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-bulk-structures"><font style="font-family:roboto;color:#455e6c"> Generating bulk structures </font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-strains"><font style="font-family:roboto;color:#455e6c"> Adding strains</font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-crystals"><font style="font-family:roboto;color:#455e6c"> Random crystals</font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-energies-and-forces"><font style="font-family:roboto;color:#455e6c"> Calculating energies and forces</font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-an-ace-potential"><font style="font-family:roboto;color:#455e6c"> Fitting an ACE potential </font></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#embeddings">1. Embeddings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#radial-functions">2. Radial functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-basis-functions">3. B-basis functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighting">Weighting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus-scaling-structures"><font style="font-family:roboto;color:#455e6c"> Bonus: Scaling structures</font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus-structures-from-materials-project"><font style="font-family:roboto;color:#455e6c"> Bonus: Structures from Materials Project</font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus-how-does-an-actual-potential-file-look-like"><font style="font-family:roboto;color:#455e6c"> Bonus: How does an actual potential file look like ? </font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading"><font style="font-family:roboto;color:#455e6c"> Further reading </font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#software-used-in-this-notebook"><font style="font-family:roboto;color:#455e6c"> Software used in this notebook </font></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="parametrising-a-machine-learning-interatomic-potential">
+<h1><font style="font-family:roboto;color:#455e6c"> Parametrising a Machine Learning Interatomic Potential </font><a class="headerlink" href="#parametrising-a-machine-learning-interatomic-potential" title="Link to this heading">#</a></h1>
+<div class="admonition note" name="html-admonition" style="background:#e3f2fd; padding: 10px">
+<font style="font-family:roboto;color:#455e6c"> Sarath Menon, Jörg Neugebauer </font> </br>
+<font style="font-family:roboto;color:#455e6c"> Max Planck Institute for Sustainable Materials, Dusseldorf, Germany </font> </br>
+<font style="font-family:roboto;color:#455e6c"> <b> Machine Learning Modalities for Materials Science Workshop, Jožef Stefan Institute, Ljubljana </b> </font> </br>
+<font style="font-family:roboto;color:#455e6c"> 14 May 2024 </font>
+</div><p>In this notebook we will show the strategies for the generation of a DFT data set for fitting of a machine learning interatomic potential. We will then fit an <a class="reference external" href="https://doi.org/10.1103/PhysRevB.99.014104">Atomic Cluster Expansion</a> interatomic potential using the <a class="reference external" href="https://www.nature.com/articles/s41524-021-00559-9">pacemaker</a> software.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">config</span> IPCompleter.evaluation=&#39;unsafe&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyiron</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We start by creating a project</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pr</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s1">&#39;dataset_generation&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this notebook, we will use aluminium as an example, similar to the last notebook. Data sets for fitting ML potentials should contain local and global minima
+of the potential energy surface, such as relaxed stable and metastable
+bulk structures. There are many strategies that can be employed to generate datasets, we will look at some of them here.</p>
+<section id="generating-bulk-structures">
+<h2><font style="font-family:roboto;color:#455e6c"> Generating bulk structures </font><a class="headerlink" href="#generating-bulk-structures" title="Link to this heading">#</a></h2>
+<p>One of the strategies employed is to generate bulk structure of Al which is then fully relaxed, and stored for ML fitting. Here, we will show the example of fcc Al.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Al</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">bulk</span><span class="p">(</span><span class="s1">&#39;Al&#39;</span><span class="p">,</span> <span class="n">cubic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For more details on generating and manipulating structures, please have a look at our <a class="reference external" href="https://pyiron.readthedocs.io/en/latest/source/notebooks/structures.html">structures example</a>. In this section however, we show how to generate and manipulate bulk crystals, surfaces, etc. pyiron’s structure class is derived from the popular <a class="reference external" href="https://wiki.fysik.dtu.dk/ase/ase/build/build.html"><code class="docutils literal notranslate"><span class="pre">ase</span></code> package</a> and any <code class="docutils literal notranslate"><span class="pre">ase</span></code> function to manipulate structures can also be applied here.</p>
+<p>Now we have to relax this structure. Ideally, high convergence DFT calculations are needed, eg with VASP or QuantumEspresso. Here we will simply use LAMMPS with an emperical potential to demonstrate the calculations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">Lammps</span><span class="p">(</span><span class="s1">&#39;Al_bulk&#39;</span><span class="p">,</span> <span class="n">delete_aborted_job</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">structure</span> <span class="o">=</span> <span class="n">Al</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">potential</span> <span class="o">=</span> <span class="s2">&quot;2005--Mendelev-M-I--Al-Fe--LAMMPS--ipr1&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now relax the structure</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">calc_minimize</span><span class="p">(</span><span class="n">pressure</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And run the job</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Another step done to collect structures for fitting is to run a EV curve . We can use the Murnaghan job from pyiron for this. First we set up a LAMMPS job again.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">Lammps</span><span class="p">(</span><span class="s1">&#39;Al_bulk&#39;</span><span class="p">,</span> <span class="n">delete_existing_job</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">delete_aborted_job</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">structure</span> <span class="o">=</span> <span class="n">Al</span>
+<span class="n">job</span><span class="o">.</span><span class="n">potential</span> <span class="o">=</span> <span class="s2">&quot;2005--Mendelev-M-I--Al-Fe--LAMMPS--ipr1&quot;</span>
+<span class="n">job</span><span class="o">.</span><span class="n">calc_minimize</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can create a Murnaghan Job</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">murn</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">create_job</span><span class="p">(</span><span class="n">pr</span><span class="o">.</span><span class="n">job_type</span><span class="o">.</span><span class="n">Murnaghan</span><span class="p">,</span> <span class="s1">&#39;murnaghan&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can check the possible input options:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">murn</span><span class="o">.</span><span class="n">input</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And run the job:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">murn</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can directly visualize the results of the murn job:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">murn</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And take a look at the output</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">murn</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="adding-strains">
+<h2><font style="font-family:roboto;color:#455e6c"> Adding strains</font><a class="headerlink" href="#adding-strains" title="Link to this heading">#</a></h2>
+<p>A usual approach is to start with some prototypical structures and strain and shake them.  We can use the fcc Al we created earlier.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">strains</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">strains</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will also create a <code class="docutils literal notranslate"><span class="pre">StructureStorage</span></code> which easily save these structures, and run calculations with them later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyiron_atomistics.atomistics.structure.structurestorage</span><span class="w"> </span><span class="kn">import</span> <span class="n">StructureStorage</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">store</span> <span class="o">=</span> <span class="n">StructureStorage</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">eps</span> <span class="ow">in</span> <span class="n">strains</span><span class="p">:</span>
+    <span class="n">store</span><span class="o">.</span><span class="n">add_structure</span><span class="p">(</span>
+        <span class="n">structure</span><span class="o">=</span><span class="n">Al</span><span class="o">.</span><span class="n">apply_strain</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">return_box</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">identifier</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;fcc_</span><span class="si">{</span><span class="n">eps</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also add random displacements to atom positions using the <code class="docutils literal notranslate"><span class="pre">rattle</span></code> method</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">eps</span> <span class="ow">in</span> <span class="n">strains</span><span class="p">:</span>
+    <span class="n">structure</span> <span class="o">=</span> <span class="n">Al</span><span class="o">.</span><span class="n">apply_strain</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">return_box</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">structure</span><span class="o">.</span><span class="n">rattle</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Strain&#39;</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="s1">&#39;Volume&#39;</span><span class="p">,</span> <span class="n">structure</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="n">per_atom</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="n">store</span><span class="o">.</span><span class="n">add_structure</span><span class="p">(</span>
+        <span class="n">structure</span><span class="o">=</span><span class="n">structure</span><span class="p">,</span>
+        <span class="n">identifier</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;fcc_</span><span class="si">{</span><span class="n">eps</span><span class="si">}</span><span class="s1">_rattle&#39;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="random-crystals">
+<h2><font style="font-family:roboto;color:#455e6c"> Random crystals</font><a class="headerlink" href="#random-crystals" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pyxtal</span></code> is a <a class="reference external" href="https://pyxtal.readthedocs.io/en/latest/">program</a> to generate random structures of a given space group and stoichiometry.
+It is useful for crystal structure prediction and also for generating training structures.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">structuretoolkit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">stk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyiron_atomistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">ase_to_pyiron</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">structuretoolkit</span></code> is a library for structure manipulation and analysis also developed by the pyiron team.  For compatibility with a wider range of codes it operates purely on ASE <code class="docutils literal notranslate"><span class="pre">Atoms</span></code> objects, so we need to convert structures explicitely here.  In the next release of <code class="docutils literal notranslate"><span class="pre">pyiron_atomistics</span></code> you will be able to call <code class="docutils literal notranslate"><span class="pre">pr.create.structure.pyxtal</span></code> directly for a more convenient wrapper.</p>
+<p>We usually also use random crystals generated by sampling random space groups.  One would use more spacegroups and differently sized unit cells, but we’ll keep it simple here.  Details can be found in <a class="reference external" href="https://journals.aps.org/prb/abstract/10.1103/PhysRevB.107.104103">this paper</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">194</span><span class="p">,</span> <span class="mi">225</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">structure</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">stk</span><span class="o">.</span><span class="n">build</span><span class="o">.</span><span class="n">pyxtal</span><span class="p">(</span>
+    <span class="n">group</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span>
+    <span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Al&#39;</span><span class="p">],</span>
+    <span class="n">num_ions</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
+    <span class="n">tm</span><span class="o">=</span><span class="s1">&#39;metallic&#39;</span>
+<span class="p">)):</span>
+    <span class="n">store</span><span class="o">.</span><span class="n">add_structure</span><span class="p">(</span>
+        <span class="n">structure</span><span class="o">=</span><span class="n">structure</span><span class="p">[</span><span class="s1">&#39;atoms&#39;</span><span class="p">],</span>
+        <span class="n">identifier</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;random_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now collected a number of structures in the store.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">store</span><span class="o">.</span><span class="n">number_of_structures</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="calculating-energies-and-forces">
+<h2><font style="font-family:roboto;color:#455e6c"> Calculating energies and forces</font><a class="headerlink" href="#calculating-energies-and-forces" title="Link to this heading">#</a></h2>
+<p>The next step is to calculate the energies and forces</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">structure</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">store</span><span class="o">.</span><span class="n">iter_structures</span><span class="p">()):</span>
+    <span class="c1"># pyiron has some opinions of what is a proper &quot;job name&quot; for technical reasons, but</span>
+    <span class="c1"># you can always use this function to translate your favorite one into a &quot;proper&quot; one</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">job_name</span><span class="p">(</span><span class="n">store</span><span class="p">[</span><span class="s1">&#39;identifier&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+    <span class="n">job</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">Lammps</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">job</span><span class="o">.</span><span class="n">potential</span> <span class="o">=</span> <span class="s2">&quot;2005--Mendelev-M-I--Al-Fe--LAMMPS--ipr1&quot;</span>
+    <span class="n">job</span><span class="o">.</span><span class="n">structure</span> <span class="o">=</span> <span class="n">structure</span>
+    <span class="n">job</span><span class="o">.</span><span class="n">calc_static</span><span class="p">()</span>
+    <span class="n">job</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once our reference calculations are finished, we can collect the results in a container for convenience.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">TrainingContainer</span><span class="p">(</span><span class="s2">&quot;AlLi&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We include all the jobs we did so far in the TrainingContainer</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">pr</span><span class="o">.</span><span class="n">iter_jobs</span><span class="p">(</span><span class="n">hamilton</span><span class="o">=</span><span class="s1">&#39;Lammps&#39;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;finished&#39;</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">number_of_structures</span><span class="p">):</span>
+        <span class="n">train</span><span class="o">.</span><span class="n">include_job</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="n">iteration_step</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>“Running” the container simply saves it to disk and to our database.  It can also precompute
+nearest neighbor information.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Besides keeping everything in one place, the <code class="docutils literal notranslate"><span class="pre">TrainingContainer</span></code> also defines a number of plotting functions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">energy_volume</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">energy_distance</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Minimum Nearest Neighbor Distance [$\mathrm{\AA}$]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy [eV/atom]&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For fitting potentials within pyiron you can use the container as is, but if you have external tools, you can
+export the data into a table.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fitting-an-ace-potential">
+<h2><font style="font-family:roboto;color:#455e6c"> Fitting an ACE potential </font><a class="headerlink" href="#fitting-an-ace-potential" title="Link to this heading">#</a></h2>
+<p>Now that we have looked at how we create datasets for fitting, we can actually go ahead and fit an ACE potential. Note that we used an empirical potential instead of DFT before. For the fitting, we provide a very small <a class="reference external" href="https://arxiv.org/abs/2403.05724">Al dataset</a> that can be used. This dataset is in the form of a packed pyiron project. We start by extracting it first.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pr</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s1">&#39;fitting&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will extract the ‘dataset.tar.gz’ file into this project</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pr</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;dataset&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we create a job for fitting</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">PacemakerJob</span><span class="p">(</span><span class="s2">&quot;pacemaker_job&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we add the training set we created above to this fitting job</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_data</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;Al_dataset&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">add_training_data</span><span class="p">(</span><span class="n">training_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now take a look at the different potential settings</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">input</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The job starts with a robust set of default input parameters. Any input quantity can of course be reset. For example, an important setting is the cutoff distance. We change it to 6.0</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">cutoff</span><span class="o">=</span><span class="mf">6.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In general a (P)ACE potential specification consists of three parts:</p>
+<section id="embeddings">
+<h3>1. Embeddings<a class="headerlink" href="#embeddings" title="Link to this heading">#</a></h3>
+<p>i.e. how atomic energy <span class="math notranslate nohighlight">\(E_i\)</span> depends on ACE properties/densities <span class="math notranslate nohighlight">\(\varphi\)</span>. Linear expansion <span class="math notranslate nohighlight">\(E_i = \varphi\)</span> is the trivial. Non-linear expansion, i.e. those, containing square root, gives more flexiblity and accuracy of final potential</p>
+<p>Embeddings for <code class="docutils literal notranslate"><span class="pre">ALL</span></code> species:</p>
+<ul class="simple">
+<li><p>non-linear <code class="docutils literal notranslate"><span class="pre">FinnisSinclairShiftedScaled</span></code></p></li>
+<li><p>2 densities</p></li>
+<li><p>fs_parameters’: [1, 1, 1, 0.5]:
+$<span class="math notranslate nohighlight">\(E_i = 1.0 * \varphi(1)^1 + 1.0 * \varphi(2)^{0.5} = \varphi^{(1)} + \sqrt{\varphi^{(2)}} \)</span>$</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="s2">&quot;potential&quot;</span><span class="p">][</span><span class="s2">&quot;embeddings&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="radial-functions">
+<h3>2. Radial functions<a class="headerlink" href="#radial-functions" title="Link to this heading">#</a></h3>
+<p>Radial functions are orthogonal polynoms example:</p>
+<ul class="simple">
+<li><p>(a) Exponentially-scaled Chebyshev polynomials (λ = 5.25)</p></li>
+<li><p>(b) Power-law scaled Chebyshev polynomials (λ = 2.0)</p></li>
+<li><p>(c) Simplified spherical Bessel functions</p></li>
+</ul>
+<img src="img/radial-functions-low.png" width="300"><p>Radial functions specification for <code class="docutils literal notranslate"><span class="pre">ALL</span></code> species pairs (i.e. Al-Al, Al-Li, Li-Al, Li-Li):</p>
+<ul class="simple">
+<li><p>based on the Simplified Bessel</p></li>
+<li><p>cutoff <span class="math notranslate nohighlight">\(r_c=6.0\)</span></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="s2">&quot;potential&quot;</span><span class="p">][</span><span class="s2">&quot;bonds&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="b-basis-functions">
+<h3>3. B-basis functions<a class="headerlink" href="#b-basis-functions" title="Link to this heading">#</a></h3>
+<p>B-basis functions  for <code class="docutils literal notranslate"><span class="pre">ALL</span></code> species type interactions, i.e. Al-Al block:</p>
+<ul class="simple">
+<li><p>maximum order = 4, i.e. body-order 5 (1 central atom + 4 neighbour  densities)</p></li>
+<li><p>nradmax_by_orders: 15, 3, 2, 1</p></li>
+<li><p>lmax_by_orders: 0, 3, 2, 1</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="s2">&quot;potential&quot;</span><span class="p">][</span><span class="s2">&quot;functions&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will reduce the basis size for demonstartion purposes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="s2">&quot;potential&quot;</span><span class="p">][</span><span class="s2">&quot;functions&quot;</span><span class="p">][</span><span class="s2">&quot;ALL&quot;</span><span class="p">][</span><span class="s2">&quot;nradmax_by_orders&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="s2">&quot;potential&quot;</span><span class="p">][</span><span class="s2">&quot;functions&quot;</span><span class="p">][</span><span class="s2">&quot;ALL&quot;</span><span class="p">][</span><span class="s2">&quot;lmax_by_orders&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Loss function specification</p>
+<img src="img/loss-func.png" width="300"><img src="img/loss-reg.png" width="300"><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="s2">&quot;fit&quot;</span><span class="p">][</span><span class="s2">&quot;loss&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="weighting">
+<h3>Weighting<a class="headerlink" href="#weighting" title="Link to this heading">#</a></h3>
+<p>Energy-based weighting puts more “accent” onto the low energy-lying structures, close to convex hull</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="s2">&quot;fit&quot;</span><span class="p">][</span><span class="s1">&#39;weighting&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="p">{</span>
+        <span class="c1">## weights for the structures energies/forces are associated according to the distance to E_min:</span>
+        <span class="c1">## convex hull ( energy: convex_hull) or minimal energy per atom (energy: cohesive)</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;EnergyBasedWeightingPolicy&quot;</span><span class="p">,</span>
+        <span class="c1">## number of structures to randomly select from the initial dataset</span>
+        <span class="s2">&quot;nfit&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>         
+        <span class="c1">## only the structures with energy up to E_min + DEup will be selected</span>
+        <span class="s2">&quot;DEup&quot;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>  <span class="c1">## eV, upper energy range (E_min + DElow, E_min + DEup)        </span>
+        <span class="c1">## only the structures with maximal force on atom  up to DFup will be selected</span>
+        <span class="s2">&quot;DFup&quot;</span><span class="p">:</span> <span class="mf">50.0</span><span class="p">,</span> <span class="c1">## eV/A</span>
+        <span class="c1">## lower energy range (E_min, E_min + DElow)</span>
+        <span class="s2">&quot;DElow&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="c1">## eV</span>
+        <span class="c1">## delta_E  shift for weights, see paper</span>
+        <span class="s2">&quot;DE&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="c1">## delta_F  shift for weights, see paper</span>
+        <span class="s2">&quot;DF&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="c1">## 0&lt;wlow&lt;1 or None: if provided, the renormalization weights of the structures on lower energy range (see DElow)</span>
+        <span class="s2">&quot;wlow&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>        
+        <span class="c1">##  &quot;convex_hull&quot; or &quot;cohesive&quot; : method to compute the E_min</span>
+        <span class="s2">&quot;energy&quot;</span><span class="p">:</span> <span class="s2">&quot;convex_hull&quot;</span><span class="p">,</span>        
+        <span class="c1">## structures types: all (default), bulk or cluster</span>
+        <span class="s2">&quot;reftype&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>        
+        <span class="c1">## random number seed</span>
+        <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">42</span> 
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Maximum number of iterations by optimizer (<code class="docutils literal notranslate"><span class="pre">SciPy.minimize.BFGS</span></code>). Typical values are ~1000-1500, but we chose small value for demonstration purposes only</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="s2">&quot;fit&quot;</span><span class="p">][</span><span class="s2">&quot;maxiter&quot;</span><span class="p">]</span><span class="o">=</span><span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For more details about these and other settings please refer to <a class="reference external" href="https://pacemaker.readthedocs.io/en/latest/pacemaker/inputfile/">official documentation</a></p>
+<p>Now we can run the fit</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Take a look at the fitting results:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">job</span><span class="p">[</span><span class="s2">&quot;output/log/loss&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;# iter&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>plot RMSE values of energy per atom:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">job</span><span class="p">[</span><span class="s2">&quot;output/log/rmse_epa&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;# iter&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;RMSE E, eV/atom&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we see, the really small potential we fit, has already reached meV accuracy!</p>
+<p>plot force component RMSE:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">job</span><span class="p">[</span><span class="s2">&quot;output/log/rmse_f_comp&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;# iter&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;RMSE F_i, eV/A&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>load DataFrame with predictions of energy</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ref_df</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">training_data</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred_df</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">predicted_data</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pred_df</span><span class="p">[</span><span class="s2">&quot;energy_per_atom_true&quot;</span><span class="p">],</span><span class="n">pred_df</span><span class="p">[</span><span class="s2">&quot;energy_per_atom&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Dataset E, eV/atom&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;ACE E, eV/atom&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>and forces</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">ref_df</span><span class="p">[</span><span class="s2">&quot;forces&quot;</span><span class="p">],</span><span class="n">pred_df</span><span class="p">[</span><span class="s2">&quot;forces&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Dataset F_i, eV/A&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;ACE F_i, eV/A&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Check more in <code class="docutils literal notranslate"><span class="pre">job.working_directory</span></code>/report folder</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span><span class="w"> </span>ls<span class="w"> </span><span class="o">{</span>job.working_directory<span class="o">}</span>/report
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="bonus-scaling-structures">
+<h2><font style="font-family:roboto;color:#455e6c"> Bonus: Scaling structures</font><a class="headerlink" href="#bonus-scaling-structures" title="Link to this heading">#</a></h2>
+<p>Another approach used is scaling the structures. We start by creating a bulk fcc again.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Al</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">bulk</span><span class="p">(</span><span class="s1">&#39;Al&#39;</span><span class="p">,</span> <span class="n">cubic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">4.04</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now scale the structure such that minimum nearest neighbor distance is varied from 2 to 6.5 Å in 0.5 intervals. We will also create a <code class="docutils literal notranslate"><span class="pre">StructureStorage</span></code> which easily save these structures, and run calculations with them later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">store</span> <span class="o">=</span> <span class="n">StructureStorage</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We start by getting the minimum nearest neighbor distance</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">Al</span><span class="o">.</span><span class="n">get_all_distances</span><span class="p">(</span><span class="n">mic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">min_distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">distances</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">distances</span><span class="p">)])</span>
+<span class="n">min_distance</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The range of distances needed, and convert them to fractions</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="n">d_arr</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">distances</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">distances</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now for each scaling, create a structure and store it</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">scale</span><span class="p">:</span>
+    <span class="n">struct</span> <span class="o">=</span> <span class="n">Al</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">struct</span><span class="o">.</span><span class="n">apply_strain</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">store</span><span class="o">.</span><span class="n">add_structure</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;fcc_nnscale_</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that this procedure has to be repeated for other bulk structures of interest.</p>
+</section>
+<section id="bonus-structures-from-materials-project">
+<h2><font style="font-family:roboto;color:#455e6c"> Bonus: Structures from Materials Project</font><a class="headerlink" href="#bonus-structures-from-materials-project" title="Link to this heading">#</a></h2>
+<p>For binary AlLi structures, we queried them from materials project. This can be done with pyiron. Note that you have to provide a <a class="reference external" href="https://next-gen.materialsproject.org/api#api-key">Materials Project API key</a> for this functionality.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can query structures that lie on the convex hull</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">structures</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">materialsproject</span><span class="o">.</span><span class="n">search</span><span class="p">([</span><span class="s1">&#39;Al-Li&#39;</span><span class="p">],</span> <span class="n">is_stable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We add these structures to the store</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">structure</span> <span class="ow">in</span> <span class="n">structures</span><span class="p">:</span>
+    <span class="n">store</span><span class="o">.</span><span class="n">add_structure</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="n">structure</span><span class="o">.</span><span class="n">get_chemical_formula</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that you can also visualise the structures.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">structures</span><span class="o">.</span><span class="n">get_structure</span><span class="p">(</span><span class="n">frame</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">plot3d</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We need to relax these structure, but also perfrom EV curves, and scaling of the nearest neighbor distance as before. This is skipped for now.</p>
+</section>
+<section id="bonus-how-does-an-actual-potential-file-look-like">
+<h2><font style="font-family:roboto;color:#455e6c"> Bonus: How does an actual potential file look like ? </font><a class="headerlink" href="#bonus-how-does-an-actual-potential-file-look-like" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">output_potential.yaml</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">species</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Pure Al interaction block</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">speciesblock</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Al</span>
+<span class="w">    </span><span class="nt">radbase</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SBessel</span>
+<span class="w">    </span><span class="nt">radcoefficients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[[[</span><span class="nv">1.995274603767268</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-1.1940566258712266</span><span class="p p-Indicator">,</span><span class="nv">...</span><span class="p p-Indicator">]]]</span>
+<span class="w">  </span>
+<span class="w">    </span><span class="nt">nbody</span><span class="p">:</span>
+<span class="w">      </span><span class="c1"># first order/ two-body functions = pair functions</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Al Al</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2.0970219095074687</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-3.9539202281610351</span><span class="p p-Indicator">]}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Al Al</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-1.8968648691718397</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-2.3146574133175974</span><span class="p p-Indicator">]}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Al Al</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1.3504952496800906</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.5291190439028692</span><span class="p p-Indicator">]}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Al Al</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.040517989827027742</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.11933504671036224</span><span class="p p-Indicator">]}</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">      </span><span class="c1"># second order/ three-body functions </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Al Al Al</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.57788490809100468</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-1.8642896163994958</span><span class="p p-Indicator">]}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Al Al Al</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-1.0126646532267587</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-1.2336078784112348</span><span class="p p-Indicator">]}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Al Al Al</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.19324470046809467</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.63954472122968498</span><span class="p p-Indicator">]}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Al Al Al</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.22018334529075642</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.32822679746839439</span><span class="p p-Indicator">]}</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">      </span><span class="c1"># fifth order/ six-body functions </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Al Al Al Al Al Al</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> lint</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.71...</span><span class="p p-Indicator">]}</span>
+<span class="w">  </span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1"># binary Al-Li interaction block    </span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">speciesblock</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Al Li</span><span class="w">      </span>
+<span class="w">     </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">     </span><span class="l l-Scalar l-Scalar-Plain">nbody</span><span class="p p-Indicator">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Al Li</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.91843424537280882</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-2.4170371138562308</span><span class="p p-Indicator">]}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Al Li</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.88380210517336399</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.97055273167339651</span><span class="p p-Indicator">]}</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Al Al Al Li Li</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> lint</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.0050</span><span class="p p-Indicator">,</span><span class="nv">...</span><span class="p p-Indicator">]}</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">  </span><span class="c1"># Pure Li interaction block      </span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">speciesblock</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Li</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">nbody</span><span class="p p-Indicator">:</span>
+<span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">- {type</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Li Li Li, nr</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">4</span><span class="p p-Indicator">]</span><span class="err">,</span><span class="w"> </span><span class="nt">nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">]</span><span class="err">,</span><span class="w"> </span><span class="nt">c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.0059111333449957159</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.035</span><span class="p p-Indicator">]</span><span class="err">}</span>
+<span class="w">       </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Li Li Li Li</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> lint</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.210</span><span class="p p-Indicator">,</span><span class="nv">...</span><span class="p p-Indicator">]}</span>
+<span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">  </span><span class="c1"># binary Al-Li interaction block    </span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">speciesblock</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Li Al</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">nbody</span><span class="p p-Indicator">:</span>
+<span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">- {type</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Li Al Al, nr</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">4</span><span class="p p-Indicator">]</span><span class="err">,</span><span class="w"> </span><span class="nt">nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">]</span><span class="err">,</span><span class="w"> </span><span class="nt">c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.014680736321211739</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.030618474343919122</span><span class="p p-Indicator">]</span><span class="err">}</span>
+<span class="w">       </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nv">Li Al Li</span><span class="p p-Indicator">,</span><span class="nt"> nr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">],</span><span class="nt"> nl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="nt"> c</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.22827705573988896</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.28367909613209036</span><span class="p p-Indicator">]}</span>
+<span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">  </span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">output_potential.yaml</span></code> is in B-basis form. For efficient LAMMPS implementaion it should be converted to so-called <code class="docutils literal notranslate"><span class="pre">C-tilde</span></code> form.  This is already done by <code class="docutils literal notranslate"><span class="pre">pyiron</span></code>, but it could be also done manually by <code class="docutils literal notranslate"><span class="pre">pace_yaml2yace</span></code> utility. Check <a class="reference external" href="https://pacemaker.readthedocs.io/en/latest/pacemaker/quickstart/#lammps">here</a> for more details</p>
+</section>
+<section id="further-reading">
+<h2><font style="font-family:roboto;color:#455e6c"> Further reading </font><a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://doi.org/10.1103/PhysRevB.107.104103">Poul, M., Huber, L., Bitzek, E. &amp; Neugebauer, J. Systematic atomic structure datasets for machine learning potentials: Application to defects in magnesium. Phys. Rev. B 107, 104103 (2023)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/ICAMS/python-ace"><code class="docutils literal notranslate"><span class="pre">pacemaker</span></code> repository</a> and <a class="reference external" href="https://pacemaker.readthedocs.io/en/latest/">documentation</a></p></li>
+<li><p><a class="reference external" href="https://journals.aps.org/prmaterials/abstract/10.1103/PhysRevMaterials.6.013804">Bochkarev, A., Lysogorskiy, Y., Menon, S., Qamar, M., Mrovec, M. and Drautz, R. Efficient parametrization of the atomic cluster expansion. Physical Review Materials 6(1) 013804 (2022)</a></p></li>
+<li><p><a class="reference external" href="https://www.nature.com/articles/s41524-021-00559-9">Lysogorskiy, Y., Oord, C. v. d., Bochkarev, A., Menon, S., Rinaldi, M., Hammerschmidt, T., Mrovec, M., Thompson, A., Csányi, G., Ortner, C. and  Drautz, R. Performant implementation of the atomic cluster expansion (PACE) and application to copper and silicon. npj Computational Materials 7(1), 1-12 (2021)</a></p></li>
+<li><p><a class="reference external" href="https://journals.aps.org/prb/abstract/10.1103/PhysRevB.99.014104">Drautz, R. Atomic cluster expansion for accurate and transferable interatomic potentials. Physical Review B, 99(1), 014104 (2019)</a></p></li>
+</ul>
+</section>
+<section id="software-used-in-this-notebook">
+<h2><font style="font-family:roboto;color:#455e6c"> Software used in this notebook </font><a class="headerlink" href="#software-used-in-this-notebook" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/ICAMS/python-ace">pacemaker</a></p></li>
+<li><p><a class="reference external" href="https://github.com/pyiron/pyiron_atomistics">pyiron_atomistics</a></p></li>
+<li><p><a class="reference external" href="https://www.lammps.org/">LAMMPS</a></p></li>
+<li><p><a class="reference external" href="https://pyxtal.readthedocs.io/en/latest/">pyXtal</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./tutorial"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="tutorial_01.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><font style="font-family:roboto;color:#455e6c"> Introduction to atomistic simulations with pyiron </font></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="tutorial_03.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><font style="font-family:roboto;color:#455e6c"> Validation of interatomic potentials </font></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-bulk-structures"><font style="font-family:roboto;color:#455e6c"> Generating bulk structures </font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-strains"><font style="font-family:roboto;color:#455e6c"> Adding strains</font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-crystals"><font style="font-family:roboto;color:#455e6c"> Random crystals</font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-energies-and-forces"><font style="font-family:roboto;color:#455e6c"> Calculating energies and forces</font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-an-ace-potential"><font style="font-family:roboto;color:#455e6c"> Fitting an ACE potential </font></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#embeddings">1. Embeddings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#radial-functions">2. Radial functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-basis-functions">3. B-basis functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighting">Weighting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus-scaling-structures"><font style="font-family:roboto;color:#455e6c"> Bonus: Scaling structures</font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus-structures-from-materials-project"><font style="font-family:roboto;color:#455e6c"> Bonus: Structures from Materials Project</font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus-how-does-an-actual-potential-file-look-like"><font style="font-family:roboto;color:#455e6c"> Bonus: How does an actual potential file look like ? </font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading"><font style="font-family:roboto;color:#455e6c"> Further reading </font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#software-used-in-this-notebook"><font style="font-family:roboto;color:#455e6c"> Software used in this notebook </font></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Sarath Menon
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

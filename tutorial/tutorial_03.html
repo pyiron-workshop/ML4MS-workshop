@@ -1,0 +1,1092 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Validation of interatomic potentials &#8212; ML4MS workshop</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial/tutorial_03';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Achieving reproducible and reusable workflows" href="tutorial_04.html" />
+    <link rel="prev" title="Parametrising a Machine Learning Interatomic Potential" href="tutorial_02.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ML4MS workshop</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    ML4MS workshop
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tutorial_01.html"><font style="font-family:roboto;color:#455e6c"> Introduction to atomistic simulations with pyiron </font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_02.html"><font style="font-family:roboto;color:#455e6c"> Parametrising a Machine Learning Interatomic Potential </font></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><font style="font-family:roboto;color:#455e6c"> Validation of interatomic potentials </font></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_04.html"><font style="font-family:roboto;color:#455e6c"> Achieving reproducible and reusable workflows </font></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/pyiron-workshop/ML4MS-workshop/master?urlpath=lab/tree/tutorial/tutorial_03.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/tutorial/tutorial_03.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1><font style="font-family:roboto;color:#455e6c"> Validation of interatomic potentials </font></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equation-of-state"><font style="font-family:roboto;color:#455e6c"> Equation of State </font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-constants"><font style="font-family:roboto;color:#455e6c"> Elastic constants </font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phonons"><font style="font-family:roboto;color:#455e6c"> Phonons </font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thermodynamics"><font style="font-family:roboto;color:#455e6c"> Thermodynamics </font></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-simple-phase-diagram"><font style="font-family:roboto;color:#455e6c"> A simple phase diagram </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculation-of-phase-diagrams-the-essential-ingredients"><font style="font-family:roboto;color:#455e6c"> Calculation of phase diagrams: the essential ingredients </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculation-of-melting-temperature"><font style="font-family:roboto;color:#455e6c"> Calculation of melting temperature </font></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#solid-free-energy"><font style="font-family:roboto;color:#455e6c"> Solid free energy </font></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#liquid-free-energy"><font style="font-family:roboto;color:#455e6c"> Liquid free energy </font></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculation-of-free-energies-thermodynamic-integration"><font face="Helvetica" style="color:#455e6c"> Calculation of free energies: Thermodynamic integration </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#speeding-things-up-non-equilibrium-calculations"><font face="Helvetica" style="color:#455e6c"> Speeding things up: Non-equilibrium calculations </font></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#non-equilibrium-hamiltonian-interpolation">Non-Equilibrium Hamiltonian Interpolation</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#free-energy-for-solids"><font face="Helvetica" style="color:#455e6c"> Free energy for solids </font></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#task-find-free-energy-of-al-in-fcc-lattice-at-500-k-and-0-pressure">Task: Find free energy of Al in FCC lattice at 500 K and 0 pressure</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#free-energy-as-function-of-temperature"><font face="Helvetica" style="color:#455e6c"> Free energy as function of temperature </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#free-energy-for-liquids"><font face="Helvetica" style="color:#455e6c"> Free energy for liquids </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-melting-temperature-methods"><font face="Helvetica" style="color:#455e6c"> Comparison of melting temperature methods </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading"><font face="Helvetica" style="color:#455e6c"> Further reading </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#software-used-in-this-notebook"><font style="font-family:roboto;color:#455e6c"> Software used in this notebook </font></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="validation-of-interatomic-potentials">
+<h1><font style="font-family:roboto;color:#455e6c"> Validation of interatomic potentials </font><a class="headerlink" href="#validation-of-interatomic-potentials" title="Link to this heading">#</a></h1>
+<div class="admonition note" name="html-admonition" style="background:#e3f2fd; padding: 10px">
+<font style="font-family:roboto;color:#455e6c"> Sarath Menon, Jörg Neugebauer </font> </br>
+<font style="font-family:roboto;color:#455e6c"> Max Planck Institute for Sustainable Materials, Dusseldorf, Germany </font> </br>
+<font style="font-family:roboto;color:#455e6c"> <b> Machine Learning Modalities for Materials Science Workshop, Jožef Stefan Institute, Ljubljana </b> </font> </br>
+<font style="font-family:roboto;color:#455e6c"> 14 May 2024 </font>
+</div><p>In this notebook, we will run some validation calculations for interatomic potentials</p>
+<section id="equation-of-state">
+<h2><font style="font-family:roboto;color:#455e6c"> Equation of State </font><a class="headerlink" href="#equation-of-state" title="Link to this heading">#</a></h2>
+<p>We can try to calculate an EV curve with the potential we just created in the last session. We start by importing the necessary modules</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">config</span> IPCompleter.evaluation=&#39;unsafe&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyiron</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First we create a project, which points to the calculations we did.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pr</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s1">&#39;fitting&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can get the potential we fitted to run with LAMMPS. For that, first we load the training job:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;pacemaker_job&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pace_lammps_potential</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">get_lammps_potential</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pace_lammps_potential</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now as we saw before, we can do an EV curve calculation for Al fcc.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lammps_job</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">Lammps</span><span class="p">(</span><span class="s2">&quot;ref_Al&quot;</span><span class="p">,</span> <span class="n">delete_existing_job</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">lammps_job</span><span class="o">.</span><span class="n">structure</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">bulk</span><span class="p">(</span><span class="s2">&quot;Al&quot;</span><span class="p">,</span> <span class="n">cubic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">lammps_job</span><span class="o">.</span><span class="n">potential</span> <span class="o">=</span> <span class="n">pace_lammps_potential</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">murn</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">Murnaghan</span><span class="p">(</span><span class="s2">&quot;Al_murn_ace&quot;</span><span class="p">)</span>
+<span class="n">murn</span><span class="o">.</span><span class="n">ref_job</span> <span class="o">=</span> <span class="n">lammps_job</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">murn</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">murn</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now compare this with DFT results. The DFT results are provided in the form of a csv file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dft_ref</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;dft_ref.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dft_ref</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dft_ref</span><span class="p">[</span><span class="s1">&#39;volume&#39;</span><span class="p">],</span> <span class="n">dft_ref</span><span class="p">[</span><span class="s1">&#39;energy_per_atom&#39;</span><span class="p">],</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Ref&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">murn</span><span class="p">[</span><span class="s1">&#39;output/volume&#39;</span><span class="p">]</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">murn</span><span class="o">.</span><span class="n">structure</span><span class="p">),</span> <span class="n">murn</span><span class="p">[</span><span class="s1">&#39;output/energy&#39;</span><span class="p">]</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">murn</span><span class="o">.</span><span class="n">structure</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;fitted potential&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the simple potential, we have quite nice agreement with the DFT data!</p>
+</section>
+<section id="elastic-constants">
+<h2><font style="font-family:roboto;color:#455e6c"> Elastic constants </font><a class="headerlink" href="#elastic-constants" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_ref</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">Lammps</span><span class="p">(</span><span class="s1">&#39;elastic_ref&#39;</span><span class="p">)</span>
+<span class="n">job_ref</span><span class="o">.</span><span class="n">structure</span> <span class="o">=</span> <span class="n">murn</span><span class="o">.</span><span class="n">get_structure</span><span class="p">()</span>
+<span class="n">job_ref</span><span class="o">.</span><span class="n">potential</span> <span class="o">=</span> <span class="n">pace_lammps_potential</span>
+<span class="n">job_ref</span><span class="o">.</span><span class="n">calc_minimize</span><span class="p">()</span>
+
+<span class="n">elastic_job</span> <span class="o">=</span> <span class="n">job_ref</span><span class="o">.</span><span class="n">create_job</span><span class="p">(</span><span class="n">pr</span><span class="o">.</span><span class="n">job_type</span><span class="o">.</span><span class="n">ElasticMatrixJob</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;elastic_job&#39;</span><span class="p">)</span>
+<span class="n">elastic_job</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="s2">&quot;eps_range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">elastic_job</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">delete_existing_job</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">elastic_job</span><span class="p">[</span><span class="s1">&#39;output/elasticmatrix&#39;</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;C11 = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">elastic_job</span><span class="p">[</span><span class="s1">&#39;output/elasticmatrix&#39;</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2"> GPa&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;C12 = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">elastic_job</span><span class="p">[</span><span class="s1">&#39;output/elasticmatrix&#39;</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s2"> GPa&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;C44 = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">elastic_job</span><span class="p">[</span><span class="s1">&#39;output/elasticmatrix&#39;</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">][</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">])</span><span class="si">}</span><span class="s2"> GPa&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>From DFT calculations, C11, C12, and C44 are 129, 52, and 32 GPa, respectively. It is not excellent agreement, but for our very simple potential, these are reasonable results.</p>
+</section>
+<section id="phonons">
+<h2><font style="font-family:roboto;color:#455e6c"> Phonons </font><a class="headerlink" href="#phonons" title="Link to this heading">#</a></h2>
+<p>Now we can get phonon density of states using Phonopy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_ref</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">Lammps</span><span class="p">(</span><span class="s1">&#39;phonopy_ref&#39;</span><span class="p">)</span>
+<span class="n">job_ref</span><span class="o">.</span><span class="n">structure</span> <span class="o">=</span> <span class="n">murn</span><span class="o">.</span><span class="n">get_structure</span><span class="p">()</span>
+<span class="n">job_ref</span><span class="o">.</span><span class="n">potential</span> <span class="o">=</span> <span class="n">pace_lammps_potential</span>
+<span class="n">job_ref</span><span class="o">.</span><span class="n">calc_minimize</span><span class="p">()</span>
+
+<span class="n">phonopy_job</span> <span class="o">=</span> <span class="n">job_ref</span><span class="o">.</span><span class="n">create_job</span><span class="p">(</span><span class="n">pr</span><span class="o">.</span><span class="n">job_type</span><span class="o">.</span><span class="n">PhonopyJob</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;phonopy_job&quot;</span><span class="p">)</span>
+<span class="n">job_ref</span><span class="o">.</span><span class="n">calc_static</span><span class="p">()</span>
+<span class="n">phonopy_job</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">phonopy_job</span><span class="p">[</span><span class="s2">&quot;output/dos_energies&quot;</span><span class="p">],</span> <span class="n">phonopy_job</span><span class="p">[</span><span class="s2">&quot;output/dos_total&quot;</span><span class="p">],</span> 
+                <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;DOS&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency (THz)&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="thermodynamics">
+<h2><font style="font-family:roboto;color:#455e6c"> Thermodynamics </font><a class="headerlink" href="#thermodynamics" title="Link to this heading">#</a></h2>
+<p>We can also calculate more complex properties for our potential, such as the melting temperature, or phase diagram itself. Since these calculations are more expensive, we will once again switch to an EAM potential.</p>
+<p>But before that, a little bit about phase diagrams:</p>
+<section id="a-simple-phase-diagram">
+<h3><font style="font-family:roboto;color:#455e6c"> A simple phase diagram </font><a class="headerlink" href="#a-simple-phase-diagram" title="Link to this heading">#</a></h3>
+<img src="img/phase_dia_1.png" width="40%"><p>Phase diagrams provide a wealth of information such as: coexisting lines, melting temperature, phase stability, nucleation mechanism.</p>
+</section>
+<section id="calculation-of-phase-diagrams-the-essential-ingredients">
+<h3><font style="font-family:roboto;color:#455e6c"> Calculation of phase diagrams: the essential ingredients </font><a class="headerlink" href="#calculation-of-phase-diagrams-the-essential-ingredients" title="Link to this heading">#</a></h3>
+<img src="img/cimg4.png" width="50%"><p>Phase diagrams can be evaluated from free energy diagrams. The required input are:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(G(P, T)\)</span> for unary systems</p></li>
+<li><p><span class="math notranslate nohighlight">\(G(x, T)\)</span> for binary systems</p></li>
+</ul>
+<p>To calculate this, we employ thermodynamic integration, in conjuction with a number of methodological improvements.</p>
+<div class="admonition note" name="html-admonition" style="background: #FFEDD1; padding: 10px">
+<p class="title"><b>Theory behind free energy calculation </b></p>
+Please see the end of this notebook, or  <a href="https://journals.aps.org/prmaterials/abstract/10.1103/PhysRevMaterials.5.103801">this publication</a> for a longer discussion on the theory and algorithms.
+</div><p>Start with creating a new project</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pr</span> <span class="o">=</span> <span class="n">Project</span><span class="p">(</span><span class="s1">&#39;thermodynamics&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Due to our limited time, we will show the calculation of melting temperature, the end point on the phase diagram. We leverage a software tool for calculation of free energies, <a class="reference external" href="https://calphy.org">calphy</a> along with pyiron for efficient and automated free energy calculations. For a detailed tutorial, see <a class="reference external" href="https://workshop.pyiron.org/potentials-workshop-2022/phase_diagram/Intro.html">here</a>.</p>
+</section>
+<section id="calculation-of-melting-temperature">
+<h3><font style="font-family:roboto;color:#455e6c"> Calculation of melting temperature </font><a class="headerlink" href="#calculation-of-melting-temperature" title="Link to this heading">#</a></h3>
+<section id="solid-free-energy">
+<h4><font style="font-family:roboto;color:#455e6c"> Solid free energy </font><a class="headerlink" href="#solid-free-energy" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">al_sol</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">Calphy</span><span class="p">(</span><span class="s2">&quot;Al_fcc&quot;</span><span class="p">,</span> 
+                              <span class="n">delete_aborted_job</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                              <span class="n">delete_existing_job</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are a number of input the job can take. We can gain some information about the job from the docstrings.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">structure</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">ase</span><span class="o">.</span><span class="n">bulk</span><span class="p">(</span><span class="s1">&#39;Al&#39;</span><span class="p">,</span> <span class="n">cubic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">structure</span><span class="o">.</span><span class="n">plot3d</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">al_sol</span><span class="o">.</span><span class="n">structure</span> <span class="o">=</span> <span class="n">structure</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">al_sol</span><span class="o">.</span><span class="n">potential</span> <span class="o">=</span> <span class="s1">&#39;2009--Mendelev-M-I--Al-Mg--LAMMPS--ipr1&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">al_sol</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">equilibration_control</span> <span class="o">=</span> <span class="s1">&#39;berendsen&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">al_sol</span><span class="o">.</span><span class="n">calc_free_energy</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="p">[</span><span class="mi">800</span><span class="p">,</span> <span class="mi">1100</span><span class="p">],</span> 
+                     <span class="n">pressure</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                     <span class="n">reference_phase</span><span class="o">=</span><span class="s2">&quot;solid&quot;</span><span class="p">,</span>
+                     <span class="n">n_equilibration_steps</span><span class="o">=</span><span class="mi">2500</span><span class="p">,</span>
+                     <span class="n">n_switching_steps</span><span class="o">=</span><span class="mi">2500</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Before we actually run the calculation, let us discuss the various parameters. <code class="docutils literal notranslate"><span class="pre">temperature</span></code> keyword gives the temperature range over which the free energy is to be calculated. Since we provide <code class="docutils literal notranslate"><span class="pre">500</span></code>, the free energy is calculated at this temperature. <code class="docutils literal notranslate"><span class="pre">pressure</span></code> denotes the pressure of the calculation, we chose 0 in this case. Since we are using a solid FCC lattice, we set <code class="docutils literal notranslate"><span class="pre">reference_phase</span></code> to <code class="docutils literal notranslate"><span class="pre">&quot;solid&quot;</span></code>. This means that the Einstein crystal will be used as the reference system. Finally, we have <code class="docutils literal notranslate"><span class="pre">n_equilibration_steps</span></code> and <code class="docutils literal notranslate"><span class="pre">n_switching_steps</span></code>. <code class="docutils literal notranslate"><span class="pre">n_equilibration_steps</span></code> denotes the number of MD steps over which the system is equilibrated to the required temperature and pressure. <code class="docutils literal notranslate"><span class="pre">n_switching_steps</span></code> are the number of MD steps over which the system is continuously transformed between the given interatomic potential, and the reference Einstein crystal.</p>
+<p>Now we can actually run the calculation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">al_sol</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="liquid-free-energy">
+<h4><font style="font-family:roboto;color:#455e6c"> Liquid free energy </font><a class="headerlink" href="#liquid-free-energy" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">al_lqd</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">Calphy</span><span class="p">(</span><span class="s2">&quot;Al_lqd&quot;</span><span class="p">,</span> <span class="n">delete_existing_job</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">al_lqd</span><span class="o">.</span><span class="n">structure</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">ase</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;liquid.POSCAR&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;vasp&#39;</span><span class="p">)</span>
+<span class="n">al_lqd</span><span class="o">.</span><span class="n">potential</span> <span class="o">=</span> <span class="s1">&#39;2009--Mendelev-M-I--Al-Mg--LAMMPS--ipr1&#39;</span>
+<span class="n">al_lqd</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">melting_cycle</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">al_lqd</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">tolerance</span><span class="o">.</span><span class="n">pressure</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="n">al_lqd</span><span class="o">.</span><span class="n">calc_free_energy</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="p">[</span><span class="mi">800</span><span class="p">,</span> <span class="mi">1100</span><span class="p">],</span> 
+                     <span class="n">pressure</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                     <span class="n">reference_phase</span><span class="o">=</span><span class="s2">&quot;liquid&quot;</span><span class="p">,</span>
+                     <span class="n">n_equilibration_steps</span><span class="o">=</span><span class="mi">2500</span><span class="p">,</span>
+                     <span class="n">n_switching_steps</span><span class="o">=</span><span class="mi">2500</span><span class="p">)</span>
+<span class="n">al_lqd</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, the results:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">al_sol</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span> <span class="n">al_sol</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">energy_free</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Al solid&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">al_lqd</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span> <span class="n">al_lqd</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">energy_free</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Al liquid&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Temperature (K)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Free energy (eV/K)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">argmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">al_sol</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">energy_free</span> <span class="o">-</span> <span class="n">al_lqd</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">energy_free</span><span class="p">))</span>
+<span class="n">tm</span> <span class="o">=</span> <span class="n">al_sol</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">temperature</span><span class="p">[</span><span class="n">argmin</span><span class="p">]</span>
+<span class="n">tm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">al_sol</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span> <span class="n">al_sol</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">energy_free</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Al solid&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">al_lqd</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span> <span class="n">al_lqd</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">energy_free</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Al liquid&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Temperature (K)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Free energy (eV/K)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that calculated melting temperature, where the free energy of both solid and liquid phases are equal, is marked with the black dashed line above. Melting temperature calculated from experiments is 933 K, while from DFT it is 786-890 K (depending on the choice of exchange correlation functional). We can get better results by increasing the system size, and switching times for these calculations. If system size of approximately 4000 atoms, and more than 50 ps switching time is used, you would get 913 K as the melting temperature.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="calculation-of-free-energies-thermodynamic-integration">
+<h3><font style="color:#455e6c" face="Helvetica" > Calculation of free energies: Thermodynamic integration </font><a class="headerlink" href="#calculation-of-free-energies-thermodynamic-integration" title="Link to this heading">#</a></h3>
+<img src="img/fig1.png" width="1000"><ul class="simple">
+<li><p>free energy of reference system are known: Einstein crystal, <a class="reference external" href="https://doi.org/10.1063/1.4967775">Uhlenbeck-Ford model</a></p></li>
+<li><p>the two systems are coupled by
+$<span class="math notranslate nohighlight">\(
+H(\lambda) = \lambda H_f + (1-\lambda)\lambda H_i
+\)</span>$</p></li>
+<li><p>Run calculations for each <span class="math notranslate nohighlight">\(\lambda\)</span> and integrate
+$<span class="math notranslate nohighlight">\(
+G_f = G_i + \int_{\lambda=0}^1 d\lambda \bigg \langle  \frac{\partial H(\lambda)}{\partial \lambda } \bigg \rangle
+\)</span>$</p></li>
+</ul>
+<p>To calculate <span class="math notranslate nohighlight">\(F\)</span>,</p>
+<ul class="simple">
+<li><p>for each phase</p>
+<ul>
+<li><p>for each pressure</p>
+<ul>
+<li><p>for each temperature</p>
+<ul>
+<li><p>for each <span class="math notranslate nohighlight">\(\lambda\)</span></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>If we choose 100 different <span class="math notranslate nohighlight">\(\lambda\)</span> values; 100 calculations are needed for each temperature and pressure!</p>
+<p><strong>Dimensionality: (phase, <span class="math notranslate nohighlight">\(P\)</span>, <span class="math notranslate nohighlight">\(T\)</span>, <span class="math notranslate nohighlight">\(\lambda\)</span>)</strong></p>
+</section>
+<section id="speeding-things-up-non-equilibrium-calculations">
+<h3><font style="color:#455e6c" face="Helvetica" > Speeding things up: Non-equilibrium calculations </font><a class="headerlink" href="#speeding-things-up-non-equilibrium-calculations" title="Link to this heading">#</a></h3>
+<section id="non-equilibrium-hamiltonian-interpolation">
+<h4>Non-Equilibrium Hamiltonian Interpolation<a class="headerlink" href="#non-equilibrium-hamiltonian-interpolation" title="Link to this heading">#</a></h4>
+<img src="img/cimg5.png" width="600"><p>In this method:</p>
+<ul class="simple">
+<li><p>Discrete <span class="math notranslate nohighlight">\(\lambda\)</span> parameter is replaced by a time dependent <span class="math notranslate nohighlight">\(\lambda(t)\)</span></p></li>
+<li><p>Instead of running calculations at each <span class="math notranslate nohighlight">\(\lambda\)</span>, run a single, short, non-equilibrium calculation</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+G_f = G_i + \int_{t_i}^{t_f} dt \frac{d\lambda (t)}{dt}  \frac{ H(\lambda)}{\partial \lambda }
+\]</div>
+<p>As discussed:</p>
+<ul class="simple">
+<li><p>the coupling parameter <span class="math notranslate nohighlight">\(\lambda\)</span> earlier is replaced by a time dependent parameter</p></li>
+<li><p>The equation also no longer has an ensemble average</p></li>
+</ul>
+<p>These aspects makes it quite easy and fast to estimate this integral.</p>
+<p>However:</p>
+<ul class="simple">
+<li><p>this equation holds when the switching betwen the system of interest and reference system is carried out infinitely slowly</p></li>
+<li><p>Practically, this is not not possible.</p></li>
+</ul>
+<p>Therefore we can write:</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta G = W_{rev} = W_s - E_d
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+W_s = \int_{t_i}^{t_f} dt \frac{d\lambda (t)}{dt}  \frac{ H(\lambda)}{\partial \lambda }
+\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(E_d\)</span> is the energy dissipation</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_d \to 0\)</span> when <span class="math notranslate nohighlight">\(t_f-t_i \to \infty\)</span></p></li>
+</ul>
+<p>So far, so good, but how is this useful?</p>
+<ul class="simple">
+<li><p>Instead of a single transformation from system of interest to reference, we switch back too</p></li>
+<li><p>These are called forward <span class="math notranslate nohighlight">\((i \to f)\)</span> and backward <span class="math notranslate nohighlight">\((f \to i)\)</span> switching</p></li>
+<li><p><span class="math notranslate nohighlight">\(t_f - t_i = t_{sw}\)</span> is the switching time in each direction</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(t_{sw}\)</span> is long enough, <span class="math notranslate nohighlight">\(E_d^{i \to f} = E_d^{f \to i}\)</span></p></li>
+<li><p>and <span class="math notranslate nohighlight">\(\Delta G = \frac{1}{2} (W_s^{i \to f} - W_s^{f \to i})\)</span></p></li>
+</ul>
+<p>Now, we have all the components required for actual calculations.</p>
+<p>We have also managed to successfully reduce the dimensionality</p>
+<ul class="simple">
+<li><p>for each phase</p>
+<ul>
+<li><p>for each pressure</p>
+<ul>
+<li><p>for each temperature</p>
+<ul>
+<li><p>~~for each <span class="math notranslate nohighlight">\(\lambda\)</span>~~</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Dimensionality: (phase, <span class="math notranslate nohighlight">\(P\)</span>, <span class="math notranslate nohighlight">\(T\)</span>)</strong></p>
+<p>So, how do we calculate the free energy of a system modelled with a given interatomic potential?</p>
+</section>
+</section>
+<section id="free-energy-for-solids">
+<h3><font style="color:#455e6c" face="Helvetica" > Free energy for solids </font><a class="headerlink" href="#free-energy-for-solids" title="Link to this heading">#</a></h3>
+<section id="task-find-free-energy-of-al-in-fcc-lattice-at-500-k-and-0-pressure">
+<h4>Task: Find free energy of Al in FCC lattice at 500 K and 0 pressure<a class="headerlink" href="#task-find-free-energy-of-al-in-fcc-lattice-at-500-k-and-0-pressure" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p>Create an Al FCC lattice</p></li>
+<li><p>Choose an interatomic potential</p></li>
+<li><p>Run MD calculations at 500 K and 0 pressure to equilibrate the system</p></li>
+<li><p>Introduce the reference system</p></li>
+<li><p>Switch….</p></li>
+<li><p>…..</p></li>
+</ol>
+<p>Steps 1-3 should be fairly easy, we saw this in the last days and also in the first session. But how do we introduce a reference system?</p>
+<ul class="simple">
+<li><p>A reference system is simply one for which the free energy is analytically known (<span class="math notranslate nohighlight">\(G_i\)</span>)</p></li>
+<li><p>We calculate the free energy difference between this and the system of interest.</p></li>
+</ul>
+<p>In case of solids, a good choice of a reference system is the Einstein crystal. An Einstein crystal is a set of independent harmonic oscillators attached to the lattice positions.</p>
+<p>The free energy of the Einstein crystal is:</p>
+<div class="math notranslate nohighlight">
+\[
+F_E = 3 k_B T \sum_{i} ln \bigg ( \frac{\hbar \omega_i}{k_B T} \bigg )
+\]</div>
+<p>We need to calculate:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\omega\)</span></p></li>
+<li><p>A common way is $<span class="math notranslate nohighlight">\(  \frac{1}{2} k_i \langle (\Delta \pmb{r}_i)^2 \rangle = \frac{3}{2} k_\mathrm{B} T \)</span>$</p></li>
+<li><p><span class="math notranslate nohighlight">\(\langle (\Delta \pmb{r}_i)^2 \rangle\)</span> is the mean squared displacement.</p></li>
+</ul>
+<p>Now that we know about the reference system, let’s update our pseudo workflow:</p>
+<ol class="arabic simple">
+<li><p>Create an Al fcc lattice</p></li>
+<li><p>Choose an interatomic potential</p></li>
+<li><p>Run MD calculations at 500 K and 0 pressure to equilibrate the system</p></li>
+<li><p>Calculate the mean squared displacement, therefore spring constants</p></li>
+<li><p>Switch system of interest to reference system</p></li>
+<li><p>Equilibrate the system</p></li>
+<li><p>Switch back to system of interest</p></li>
+<li><p>Find the work done</p></li>
+<li><p>Add to the free energy of the Einstein crystal</p></li>
+</ol>
+<p>As you can see, there are a number of steps that need to be done. This is where <strong>calphy</strong> and <strong>pyiron</strong> come in. These tools automatise all of the above steps and makes it easy to perform these calculations.</p>
+</section>
+</section>
+<section id="free-energy-as-function-of-temperature">
+<h3><font style="color:#455e6c" face="Helvetica" > Free energy as function of temperature </font><a class="headerlink" href="#free-energy-as-function-of-temperature" title="Link to this heading">#</a></h3>
+<img src="img/cimg6.png" width="600">
+<p>Gibb’s free energy via reversible scaling at a constant pressure is given by,</p>
+<p><span class="math notranslate nohighlight">\( G(N,P,T_f) = G(N,P,T_i) + \dfrac{3}{3}Nk_BT_f\ln{\dfrac{T_f}{T_i}} + \dfrac{T_f}{T_i}\Delta G \)</span>,</p>
+<p>Therefore, <span class="math notranslate nohighlight">\(G(N,P,T_f)\)</span> can be computed from <span class="math notranslate nohighlight">\(G(N,P,T_i)\)</span> via the free energy difference <span class="math notranslate nohighlight">\(\Delta G\)</span>.</p>
+<p>Here, <span class="math notranslate nohighlight">\(\Delta G = \dfrac{1}{2}[W_{if}-W_{fi}\)</span>] — (2)</p>
+<p>The reversible work is related to the internal energy <span class="math notranslate nohighlight">\(U\)</span> by,
+<span class="math notranslate nohighlight">\(W = \int_{1}^{\lambda_f}&lt;U&gt; \,d\lambda\)</span> — (3)</p>
+<p>Using MD <span class="math notranslate nohighlight">\(W\)</span> can be computed as:</p>
+<ul class="simple">
+<li><p>equilibrate for time <span class="math notranslate nohighlight">\(t_{eq}\)</span> in NPT ensemble</p></li>
+<li><p>switch <span class="math notranslate nohighlight">\(\lambda\)</span> : <span class="math notranslate nohighlight">\(1-&gt;\dfrac{T_f}{T_i}\)</span> over time <span class="math notranslate nohighlight">\(t_{sw}\)</span></p></li>
+<li><p>calculate work <span class="math notranslate nohighlight">\(W_{if}\)</span> from (3)</p></li>
+<li><p>equilibrate for time <span class="math notranslate nohighlight">\(t_{eq}\)</span> in NPT ensemble</p></li>
+<li><p>switch <span class="math notranslate nohighlight">\(\lambda\)</span> : <span class="math notranslate nohighlight">\(\dfrac{T_f}{T_i}-&gt;1\)</span> over time <span class="math notranslate nohighlight">\(t_{sw}\)</span></p></li>
+<li><p>calculate work <span class="math notranslate nohighlight">\(W_{fi}\)</span> from (3).</p></li>
+</ul>
+</section>
+<section id="free-energy-for-liquids">
+<h3><font style="color:#455e6c" face="Helvetica" > Free energy for liquids </font><a class="headerlink" href="#free-energy-for-liquids" title="Link to this heading">#</a></h3>
+<p><strong>How is the liquid prepared in this calculation?</strong></p>
+<ul class="simple">
+<li><p>Start from the given structure</p></li>
+<li><p>This structure is heated until it melts.</p></li>
+<li><p>Melting of the structure is automatically detected by calphy</p></li>
+<li><p>Once melted, it is equilibrated to the required temperature and pressure.</p></li>
+</ul>
+<p><strong>What about the reference system for liquid?</strong></p>
+<p>The reference system for the Liquid structure is also different. In this case, the Uhlenbeck-Ford system is used as the reference system for liquid.</p>
+<p>The Uhlenbeck-Ford model is described by,</p>
+<div class="math notranslate nohighlight">
+\[
+E = - \epsilon \log(1-\exp(-r^2/\sigma^2))
+\]</div>
+<p>where,</p>
+<div class="math notranslate nohighlight">
+\[
+\epsilon = p k_B T
+\]</div>
+<p><span class="math notranslate nohighlight">\(\epsilon\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span> are energy and length scales, respectively.</p>
+<p>It is purely repulsive liquid model which does not undergo any phase transformations.</p>
+</section>
+<section id="comparison-of-melting-temperature-methods">
+<h3><font style="color:#455e6c" face="Helvetica" > Comparison of melting temperature methods </font><a class="headerlink" href="#comparison-of-melting-temperature-methods" title="Link to this heading">#</a></h3>
+<img src="img/tm_methods.png" width="900"></section>
+<section id="further-reading">
+<h3><font style="color:#455e6c" face="Helvetica" > Further reading </font><a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/pdf/2403.05724.pdf">Menon et al. “From electrons to phase diagrams with classical and machine learning potentials: automated workflows for materials science with pyiron”</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1103/PhysRevMaterials.5.103801">Menon, Sarath, Yury Lysogorskiy, Jutta Rogal, and Ralf Drautz. “Automated Free-Energy Calculation from Atomistic Simulations.” Physical Review Materials 5, no. 10 (October 11, 2021): 103801.</a>.</p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1016/j.commatsci.2015.10.050">Freitas, Rodrigo, Mark Asta, and Maurice de Koning. “Nonequilibrium Free-Energy Calculation of Solids Using LAMMPS.” Computational Materials Science 112 (February 2016): 333–41.</a>.</p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1016/j.commatsci.2018.12.029">Paula Leite, Rodolfo, and Maurice de Koning. “Nonequilibrium Free-Energy Calculations of Fluids Using LAMMPS.” Computational Materials Science 159 (March 2019): 316–26.</a>.</p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1103/PhysRevLett.83.3973">Koning, Maurice de, A. Antonelli, and Sidney Yip. “Optimized Free-Energy Evaluation Using a Single Reversible-Scaling Simulation.” Physical Review Letters 83, no. 20 (November 15, 1999): 3973–77.</a>.</p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1063/1.4967775">Paula Leite, Rodolfo, Rodrigo Freitas, Rodolfo Azevedo, and Maurice de Koning. “The Uhlenbeck-Ford Model: Exact Virial Coefficients and Application as a Reference System in Fluid-Phase Free-Energy Calculations.” The Journal of Chemical Physics 145, no. 19 (November 21, 2016): 194101.</a>.</p></li>
+</ul>
+</section>
+<section id="software-used-in-this-notebook">
+<h3><font style="font-family:roboto;color:#455e6c"> Software used in this notebook </font><a class="headerlink" href="#software-used-in-this-notebook" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://calphy.org">calphy</a></p></li>
+<li><p><a class="reference external" href="https://github.com/pyiron/pyiron_atomistics">pyiron_atomistics</a></p></li>
+<li><p><a class="reference external" href="https://www.lammps.org/">LAMMPS</a></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./tutorial"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="tutorial_02.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><font style="font-family:roboto;color:#455e6c"> Parametrising a Machine Learning Interatomic Potential </font></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="tutorial_04.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><font style="font-family:roboto;color:#455e6c"> Achieving reproducible and reusable workflows </font></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equation-of-state"><font style="font-family:roboto;color:#455e6c"> Equation of State </font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-constants"><font style="font-family:roboto;color:#455e6c"> Elastic constants </font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phonons"><font style="font-family:roboto;color:#455e6c"> Phonons </font></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thermodynamics"><font style="font-family:roboto;color:#455e6c"> Thermodynamics </font></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-simple-phase-diagram"><font style="font-family:roboto;color:#455e6c"> A simple phase diagram </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculation-of-phase-diagrams-the-essential-ingredients"><font style="font-family:roboto;color:#455e6c"> Calculation of phase diagrams: the essential ingredients </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculation-of-melting-temperature"><font style="font-family:roboto;color:#455e6c"> Calculation of melting temperature </font></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#solid-free-energy"><font style="font-family:roboto;color:#455e6c"> Solid free energy </font></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#liquid-free-energy"><font style="font-family:roboto;color:#455e6c"> Liquid free energy </font></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculation-of-free-energies-thermodynamic-integration"><font face="Helvetica" style="color:#455e6c"> Calculation of free energies: Thermodynamic integration </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#speeding-things-up-non-equilibrium-calculations"><font face="Helvetica" style="color:#455e6c"> Speeding things up: Non-equilibrium calculations </font></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#non-equilibrium-hamiltonian-interpolation">Non-Equilibrium Hamiltonian Interpolation</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#free-energy-for-solids"><font face="Helvetica" style="color:#455e6c"> Free energy for solids </font></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#task-find-free-energy-of-al-in-fcc-lattice-at-500-k-and-0-pressure">Task: Find free energy of Al in FCC lattice at 500 K and 0 pressure</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#free-energy-as-function-of-temperature"><font face="Helvetica" style="color:#455e6c"> Free energy as function of temperature </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#free-energy-for-liquids"><font face="Helvetica" style="color:#455e6c"> Free energy for liquids </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-melting-temperature-methods"><font face="Helvetica" style="color:#455e6c"> Comparison of melting temperature methods </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading"><font face="Helvetica" style="color:#455e6c"> Further reading </font></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#software-used-in-this-notebook"><font style="font-family:roboto;color:#455e6c"> Software used in this notebook </font></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Sarath Menon
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
