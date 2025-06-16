@@ -1,0 +1,7 @@
+format: jb-book
+root: README
+chapters:
+- file: tutorial/tutorial_01.ipynb
+- file: tutorial/tutorial_02.ipynb
+- file: tutorial/tutorial_03.ipynb
+- file: tutorial/tutorial_04.ipynb
